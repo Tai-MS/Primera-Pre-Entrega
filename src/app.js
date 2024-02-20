@@ -4,6 +4,8 @@ import handlebars from 'express-handlebars'
 import path from 'path'
 import { Server } from 'socket.io'
 import { mongoose } from 'mongoose'
+import dotenv from 'dotenv';
+dotenv.config();
 
 //Internal imports
 import productManager from './DAO/FSManagers/productsManager.controller.js'
@@ -19,6 +21,7 @@ import onlineMessagesRouter from './routes/onlineMessages.router.js'
 
 const app = express()
 const PORT = 8080
+const mongoUrl = process.env.MONGO_URL;
 
 //Middlewares
 app.use(express.json())
@@ -31,7 +34,7 @@ app.set('view engine', 'hbs')
 app.use(express.static(path.join(__dirname, '/public')))
 
 //Mongo DB
-mongoose.connect("mongodb+srv://taiel:hola123@cluster0.jawvxzu.mongodb.net/eCommerce?retryWrites=true&w=majority")
+mongoose.connect(mongoUrl)
     .then(() => {
         console.log("Conectado a la base de datos")
     })
@@ -137,28 +140,3 @@ socketServer.on('connect', async socket => {
         socketServer.emit("userDisconnected", username)
     })
 })
-
-
-//Socket.io
-
-// socketServer.on("connection", (socket) => {
-//     console.log("un usuario se ha conectado")
-//     socket.on("newUser", (username) => {
-//         users[socket.id] = username
-//         socketServer.emit("userConnected", username)
-//     })
-
-
-//     //El usuario emite un mensaje
-//     socket.on("chatMessage", (message) => {
-//         const username = users[socket.id]
-//         socketServer.emit("message", { username, message })
-//     })
-
-//     socket.on("disconnect", () => {
-//         const username = users[socket.id]
-//         delete users[socket.id]
-//         socketServer.emit("userDisconnected", username)
-//     })
-
-// })
