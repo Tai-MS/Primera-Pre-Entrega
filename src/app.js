@@ -4,8 +4,6 @@ import handlebars from 'express-handlebars'
 import path from 'path'
 import { Server } from 'socket.io'
 import { mongoose } from 'mongoose'
-import dotenv from 'dotenv';
-dotenv.config();
 
 //Internal imports
 import productManager from './DAO/FSManagers/productsManager.controller.js'
