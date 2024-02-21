@@ -12,9 +12,6 @@ import productManager from './DAO/FSManagers/productsManager.controller.js'
 import chatManager from './DAO/DBManagers/chatRoom.controller.js'
 
 import __dirname from './utils.js'
-import productsRouter from './routes/products.router.js'
-import cartsRouter from './routes/carts.routes.js'
-import realTimeRouter from './routes/realTimeProducts.router.js'
 import onlineProductsRouter from './routes/onlineProducts.router.js'
 import onlineCartsRouter from './routes/onlineCarts.router.js'
 import onlineMessagesRouter from './routes/onlineMessages.router.js'
@@ -34,7 +31,7 @@ app.set('view engine', 'hbs')
 app.use(express.static(path.join(__dirname, '/public')))
 
 //Mongo DB
-mongoose.connect(mongoUrl)
+mongoose.connect("mongodb+srv://taiel:hola123@cluster0.jawvxzu.mongodb.net/eCommerce?retryWrites=true&w=majority")
     .then(() => {
         console.log("Conectado a la base de datos")
     })
@@ -43,12 +40,8 @@ mongoose.connect(mongoUrl)
     })
 
 //Routes
-app.use('/api/products', productsRouter)
-app.use('/api/carts', cartsRouter)
-app.use('/realTimeProducts', realTimeRouter)
-//Routes using mongo atlas
-app.use('/onlineProds', onlineProductsRouter)
-app.use('/onlineCarts', onlineCartsRouter)
+app.use('/api/products', onlineProductsRouter)
+app.use('/api/carts', onlineCartsRouter)
 app.use('/chat', onlineMessagesRouter)
 
 //Server
